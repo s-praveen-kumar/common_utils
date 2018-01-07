@@ -12,12 +12,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class FileUtils {
-    public static void copy(@NonNull File src,@NonNull File dest) throws IOException {
+    public static void copy(@NonNull File src, @NonNull File dest) throws IOException {
         FileInputStream inStream = new FileInputStream(src);
         FileOutputStream outStream = new FileOutputStream(dest);
         StreamUtils.copy(inStream, outStream);
@@ -25,7 +23,7 @@ public class FileUtils {
         outStream.close();
     }
 
-    public static void copy(@NonNull String srcPath,@NonNull String destPath) throws IOException {
+    public static void copy(@NonNull String srcPath, @NonNull String destPath) throws IOException {
         FileInputStream inStream = new FileInputStream(srcPath);
         FileOutputStream outStream = new FileOutputStream(destPath);
         StreamUtils.copy(inStream, outStream);
@@ -43,6 +41,11 @@ public class FileUtils {
         }
         return sb.toString();
     }
+
+    public static String read(@NonNull String path) throws IOException {
+        return read(new File(path));
+    }
+
     public static String[] readLines(@NonNull File in) throws IOException {
         ArrayList<String> lines = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(in));
@@ -51,6 +54,10 @@ public class FileUtils {
             lines.add(line);
         }
         return lines.toArray(new String[lines.size()]);
+    }
+
+    public static String[] readLines(@NonNull String path) throws IOException {
+        return readLines(new File(path));
     }
 
 }

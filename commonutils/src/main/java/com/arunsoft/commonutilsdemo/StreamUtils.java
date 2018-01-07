@@ -15,10 +15,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class StreamUtils {
-    public static void copy(@NonNull InputStream src,@NonNull OutputStream dest) throws IOException {
+    public static void copy(@NonNull InputStream src, @NonNull OutputStream dest) throws IOException {
         int len;
         byte[] buf = new byte[1024];
-        while ((len = src.read(buf))!=-1) {
+        while ((len = src.read(buf)) != -1) {
             dest.write(buf, 0, len);
         }
     }
