@@ -1,4 +1,4 @@
-package com.arunsoft.commonutils;
+package com.arunsoft.commonutilsdemo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.arunsoft.commonutils", appContext.getPackageName());
+        assertEquals("com.arunsoft.commonutils.test", appContext.getPackageName());
     }
 }

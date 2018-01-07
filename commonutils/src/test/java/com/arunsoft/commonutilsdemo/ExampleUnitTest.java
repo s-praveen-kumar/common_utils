@@ -1,4 +1,4 @@
-package com.arunsoft.commonutils;
+package com.arunsoft.commonutilsdemo;
 
 import org.junit.Test;
 

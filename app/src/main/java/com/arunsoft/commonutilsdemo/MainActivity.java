@@ -1,4 +1,4 @@
-package com.arunsoft.commonutils;
+package com.arunsoft.commonutilsdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
