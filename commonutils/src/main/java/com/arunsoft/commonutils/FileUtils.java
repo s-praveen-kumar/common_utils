@@ -2,7 +2,7 @@
  * Copyright (c) 2018 S Praveen Kumar
  */
 
-package com.arunsoft.commonutilsdemo;
+package com.arunsoft.commonutils;
 
 import android.support.annotation.NonNull;
 
