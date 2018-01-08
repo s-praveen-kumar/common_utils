@@ -8,10 +8,13 @@ package com.arunsoft.commonutilsdemo;
 import android.support.annotation.NonNull;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 public class StreamUtils {
@@ -31,6 +34,7 @@ public class StreamUtils {
             sb.append(line);
             sb.append('\n');
         }
+        reader.close();
         return sb.toString();
     }
 
@@ -41,6 +45,18 @@ public class StreamUtils {
         while ((line = reader.readLine()) != null) {
             lines.add(line);
         }
+        reader.close();
         return lines.toArray(new String[lines.size()]);
+    }
+
+    public static void write(@NonNull OutputStream out, String content) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+        BufferedReader reader = new BufferedReader(new StringReader(content));
+        char[] buf = new char[1024];
+        int len;
+        while((len = reader.read(buf))!=-1)
+            writer.write(buf,0,len);
+        writer.close();
+        reader.close();
     }
 }

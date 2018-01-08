@@ -39,6 +39,7 @@ public class FileUtils {
             sb.append(line);
             sb.append('\n');
         }
+        reader.close();
         return sb.toString();
     }
 
@@ -53,6 +54,7 @@ public class FileUtils {
         while ((line = reader.readLine()) != null) {
             lines.add(line);
         }
+        reader.close();
         return lines.toArray(new String[lines.size()]);
     }
 
@@ -60,4 +62,9 @@ public class FileUtils {
         return readLines(new File(path));
     }
 
+    public static void write(@NonNull File out, String content) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream(out);
+        StreamUtils.write(outputStream,content);
+        outputStream.close();
+    }
 }
