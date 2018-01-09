@@ -10,10 +10,10 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-
 public class CommonDialogs {
 
     public static void InfoDialog(@NonNull Context c, String title, @Nullable String msg, @Nullable String closeText) {
@@ -49,12 +49,7 @@ public class CommonDialogs {
         FrameLayout layout = new FrameLayout(c);
         layout.addView(editText,params);
         editText.setLayoutParams(params);
-        createDialog(c, title, msg).setView(layout).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                listener.onTextEntered(editText.getText().toString());
-            }
-        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        final AlertDialog dialog = createDialog(c, title, msg).setView(layout).setPositiveButton("Ok",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
@@ -64,7 +59,22 @@ public class CommonDialogs {
             public void onCancel(DialogInterface dialogInterface) {
                 listener.onCanceled();
             }
-        }).create().show();
+        }).create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(listener.validate(editText.getText().toString())) {
+                            listener.onTextEntered(editText.getText().toString());
+                            dialog.dismiss();
+                        }
+                    }
+                });
+            }
+        });
+        dialog.show();
     }
 
     public abstract static class ResponseListener {
@@ -73,7 +83,7 @@ public class CommonDialogs {
 
     public abstract static class TextEnteredListener {
         public abstract void onTextEntered(String text);
-
+        public abstract boolean validate(String text);
         public abstract void onCanceled();
     }
 
