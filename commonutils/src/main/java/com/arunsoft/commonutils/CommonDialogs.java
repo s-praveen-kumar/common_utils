@@ -10,19 +10,21 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
 public class CommonDialogs {
 
-    public static void InfoDialog(@NonNull Context c, String title, @Nullable String msg, @Nullable String closeText) {
+    public static void infoDialog(@NonNull Context c, String title, @Nullable String msg, @Nullable String closeText) {
         if (closeText == null)
             closeText = "Close";
         createDialog(c, title, msg).setPositiveButton(closeText, null).create().show();
     }
 
-    public static void ConfirmationDialog(@NonNull Context c, String title, @Nullable String msg, String yesButtonText, String noButtonText, final ResponseListener listener) {
+    public static void confirmationDialog(@NonNull Context c, String title, @Nullable String msg, String yesButtonText, String noButtonText, final ResponseListener listener) {
         createDialog(c, title, msg).setPositiveButton(yesButtonText, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -36,20 +38,21 @@ public class CommonDialogs {
         }).setCancelable(false).create().show();
     }
 
-    public static void ConfirmationDialog(@NonNull Context c, String title, @Nullable String msg, final ResponseListener listener) {
-        ConfirmationDialog(c, title, msg, "Yes", "No", listener);
+    public static void confirmationDialog(@NonNull Context c, String title, @Nullable String msg, final ResponseListener listener) {
+        confirmationDialog(c, title, msg, "Yes", "No", listener);
     }
 
-    public static void InputTextDialog(@NonNull Context c, String title, @Nullable String msg, boolean multiLine, final TextEnteredListener listener) {
+    public static void inputTextDialog(@NonNull Context c, String title, @Nullable String msg, boolean multiLine, int inputType, final TextEnteredListener listener) {
         final EditText editText = new EditText(c);
         editText.setSingleLine(!multiLine);
+        editText.setInputType(inputType);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = c.getResources().getDimensionPixelSize(R.dimen.dialog_view_margin);
         params.rightMargin = c.getResources().getDimensionPixelSize(R.dimen.dialog_view_margin);
         FrameLayout layout = new FrameLayout(c);
-        layout.addView(editText,params);
+        layout.addView(editText, params);
         editText.setLayoutParams(params);
-        final AlertDialog dialog = createDialog(c, title, msg).setView(layout).setPositiveButton("Ok",null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        final AlertDialog dialog = createDialog(c, title, msg).setView(layout).setPositiveButton("Ok", null).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();
@@ -66,7 +69,7 @@ public class CommonDialogs {
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(listener.validate(editText.getText().toString())) {
+                        if (listener.validate(editText.getText().toString())) {
                             listener.onTextEntered(editText.getText().toString());
                             dialog.dismiss();
                         }
@@ -77,19 +80,25 @@ public class CommonDialogs {
         dialog.show();
     }
 
+    public static void inputTextDialog(@NonNull Context c, String title, @Nullable String msg, boolean multiLine, final TextEnteredListener listener) {
+        inputTextDialog(c, title, msg, multiLine, InputType.TYPE_CLASS_TEXT, listener);
+    }
+
     public abstract static class ResponseListener {
         public abstract void onResponse(boolean response);
     }
 
     public abstract static class TextEnteredListener {
         public abstract void onTextEntered(String text);
+
         public abstract boolean validate(String text);
+
         public abstract void onCanceled();
     }
 
-    private static AlertDialog.Builder createDialog(@NonNull Context c, String title,@Nullable String msg) {
+    private static AlertDialog.Builder createDialog(@NonNull Context c, String title, @Nullable String msg) {
         AlertDialog.Builder builder = new AlertDialog.Builder(c).setTitle(title);
-        if(msg!=null)
+        if (msg != null)
             builder.setMessage(msg);
         return builder;
     }
