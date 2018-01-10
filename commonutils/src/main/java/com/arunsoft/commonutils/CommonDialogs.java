@@ -13,6 +13,8 @@ import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -84,6 +86,31 @@ public class CommonDialogs {
         inputTextDialog(c, title, msg, multiLine, InputType.TYPE_CLASS_TEXT, listener);
     }
 
+    public static void singleChoiceListDialog(@NonNull Context c, String title, @Nullable String msg, final String[] items, final int selected, final ItemSelectedListener listener){
+        final int[] choice = {selected};
+        createDialog(c,title,msg).setSingleChoiceItems(items, selected, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                choice[0] = selected;
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                listener.onCancelled();
+            }
+        }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                listener.onItemSelected(choice[0],items[choice[0]]);
+            }
+        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                listener.onCancelled();
+            }
+        }).create().show();
+    }
+
     public abstract static class ResponseListener {
         public abstract void onResponse(boolean response);
     }
@@ -94,6 +121,11 @@ public class CommonDialogs {
         public abstract boolean validate(String text);
 
         public abstract void onCanceled();
+    }
+
+    public abstract static class ItemSelectedListener{
+        public abstract void onItemSelected(int pos, String item);
+        public abstract void onCancelled();
     }
 
     private static AlertDialog.Builder createDialog(@NonNull Context c, String title, @Nullable String msg) {
