@@ -25,3 +25,20 @@ Right now this has
 <b>Note :</b>
   Currently I haven't given examples. But soon I'll add an example project to showcase how each methods can be used.
   As I said, this project is still under development. :)
+  
+  <h2>To use in your project</h2>
+
+Step 1. Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+  
+Step 2. Add the dependency
+
+	dependencies {
+	        compile 'com.github.s-praveen-kumar:common_utils:-SNAPSHOT'
+	}
