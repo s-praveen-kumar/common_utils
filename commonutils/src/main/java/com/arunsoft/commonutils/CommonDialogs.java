@@ -1,5 +1,7 @@
 /*
  * Copyright (c) 2018 S Praveen Kumar
+ *
+ * Licensed under MIT license
  */
 
 package com.arunsoft.commonutils;
