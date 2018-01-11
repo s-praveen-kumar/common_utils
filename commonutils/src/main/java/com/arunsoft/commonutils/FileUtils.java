@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * <p>
  * This class consists of static methods for working with files.
  * Methods for copying, reading and writing files are available.
+ * Most methods indirectly use methods from StreamUtils. This is just for convenience. :)
  */
 public class FileUtils {
     /**
@@ -82,7 +83,7 @@ public class FileUtils {
     }
 
     /**
-     * Reads the contents of a text file and returns them as array of lines.
+     * Reads the contents of the text file and returns them as array of lines.
      *
      * @param in The text file to be read from
      * @return An array of strings where each element represents a line in the file.
@@ -111,7 +112,7 @@ public class FileUtils {
     }
 
     /**
-     * Writes the given String content to a text file.
+     * Writes the given String content to the text file.
      *
      * @param out     The file to be written to
      * @param content The text to be written
