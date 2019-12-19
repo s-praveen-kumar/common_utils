@@ -156,7 +156,7 @@ public class CommonDialogs {
         createDialog(c, title, msg).setSingleChoiceItems(items, selected, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                choice[0] = selected;
+                choice[0] = i;
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
